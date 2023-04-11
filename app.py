@@ -7,6 +7,7 @@ from pymongo import TEXT
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 
 options = Options()
 options.headless = True
@@ -47,12 +48,12 @@ def content_based_filtering():
 def crawler():
     # BEGIN CODE HERE
     try:
-        semester = request.args.get("semester")
-        xpath = f"//*[@id='exam{semester}']/tbody/tr"
-        elements = driver.find_elements(By.XPATH, xpath)
-        course_titles = [_.get_attribute('coursetitle') for _ in elements]
+        semester: str | None = request.args.get("semester")
+        xpath: str = f"//*[@id='exam{semester}']/tbody/tr"
+        elements: list[WebElement] = driver.find_elements(By.XPATH, xpath)
+        course_titles: list[str] = [_.get_attribute('coursetitle') for _ in elements]
 
-        if len(course_titles ) == 0:
+        if len(course_titles) == 0:
             return "BAD REQUEST", 400
         return jsonify(course_titles), 200
 
