@@ -10,6 +10,110 @@
   <body>
     <!-- BEGIN CODE HERE -->
 
+    <!-- Header-->
+    <nav class="navbar navbar-expand-lg header">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="logo.png" alt="Logo" width="250px" height="58px" class="d-inline-block align-text-top">
+        </a>
+
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="btn btn-outline-light text-primary"  href="homepage.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-primary" href="products.html">Products</a>
+            </li>
+          </ul>
+      </div>
+    </nav>
+    <!-- Header-->
+
+
+    
+    <div class="pt-3 d-flex align-items-center justify-content-center col">  
+
+        <div class = "frame pt-2 row">
+          <!--Frame4-->
+          <div class="d-flex align-items-center justify-content-start">
+            <label class="pe-3" for="Search_bar">Search a product</label>
+          
+            <div class="input-group" style="width: 300px;">
+              <input  name="Search_bar" type="text" class="form-control">
+              <button class="btn btn-primary" type="submit">Search</button>
+            </div>     
+          </div>
+
+          <div class="pt-2">
+            <h4>Results</h4>
+            <div class="d-flex align-items-center justify-content-center">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Production year</th>
+                    <th>Price</th>
+                    <th>Color</th>
+                    <th>Size</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>test</td>
+                    <td>test</td>
+                    <td>test</td>
+                    <td>test</td>
+                    <td>test</td>
+                    <td>test</td>
+                  </tr>       
+                </tbody>
+              </table>   
+            </div>
+          </div>
+          <!--Frame4-->
+
+          <!--Frame5-->
+          <div class="pt-2">
+            
+              <h4>Add a product</h4>
+              <form class="d-grid gap-2">
+                <div class = "w-50 d-flex align-items-center justify-content-start">
+                  <label style="width: 200px;" for="Name">Name:</label>
+                  <input type="text" class="w-50 form-control" id="Name" name="Name">
+                </div>
+                <div class = "w-50 d-flex align-items-center justify-content-start">
+                  <label style="width: 200px;" for="year">Production year:</label>
+                  <input type="text" class="w-50 form-control" id="year" name="year">
+                </div>
+                <div class = "w-50 d-flex align-items-center justify-content-start">
+                  <label style="width: 200px;" for="price">Price:</label>
+                  <input type="text" class="w-50 form-control" id="price" name="price">
+                </div>
+                <div class = "w-50 d-flex align-items-center justify-content-start">
+                  <label style="width: 200px;" for="color">Color:</label>
+                  <input type="text" class="w-50 form-control" id="color" name="color">
+                </div>
+                <div class = "w-50 d-flex align-items-center justify-content-start">
+                  <label style="width: 200px;" for="size">Size:</label>
+                  <input type="text" class="w-50 form-control" id="size" name="size">
+                </div>
+              </form>
+              <div class="d-flex justify-content-end pb-1">
+                <button type="submit" class="btn btn-primary"> Save </button>
+              </div>
+            
+          </div>
+          <!--Frame5-->
+        </div>
+    </div>
+
+    <!-- Footer-->
+    <div class="footer mt-3 d-flex align-items-center justify-content-center col">
+      <span>Full name - 0000</span>
+    </div>
+    <!-- Footer-->
+    
     <!-- END CODE HERE -->
     <script src="products.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
