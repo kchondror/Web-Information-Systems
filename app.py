@@ -1,8 +1,19 @@
 # BEGIN CODE HERE
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_pymongo import PyMongo
 from flask_cors import CORS
 from pymongo import TEXT
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
+
+options = Options()
+options.headless = True
+driver = webdriver.Chrome(options=options)
+driver.get("https://qa.auth.gr/el/x/studyguide/600000438/current")
+
 import numpy as np
 from numpy.linalg import norm
 # END CODE HERE
@@ -57,5 +68,16 @@ def content_based_filtering():
 @app.route("/crawler", methods=["GET"])
 def crawler():
     # BEGIN CODE HERE
-    return ""
+    try:
+        semester: str | None = request.args.get("semester")
+        xpath: str = f"//*[@id='exam{semester}']/tbody/tr"
+        elements: list[WebElement] = driver.find_elements(By.XPATH, xpath)
+        course_titles: list[str] = [_.get_attribute('coursetitle') for _ in elements]
+
+        if len(course_titles) == 0:
+            return "BAD REQUEST", 400
+        return jsonify(course_titles), 200
+
+    except Exception as e:
+        return "BAD REQUEST", 400
     # END CODE HERE
