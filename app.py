@@ -14,6 +14,8 @@ options.headless = True
 driver = webdriver.Chrome(options=options)
 driver.get("https://qa.auth.gr/el/x/studyguide/600000438/current")
 
+import numpy as np
+from numpy.linalg import norm
 # END CODE HERE
 
 app = Flask(__name__)
@@ -40,7 +42,26 @@ def add_product():
 @app.route("/content-based-filtering", methods=["POST"])
 def content_based_filtering():
     # BEGIN CODE HERE
-    return ""
+    productsArray = []
+
+    current_product = request.json
+    current_product = np.array([current_product["production_year"],
+                                current_product["price"],
+                                current_product["color"],
+                                current_product["size"]])
+
+    Qresult = list(mongo.db.products.find({}))
+    for document in Qresult:
+        product = np.array([document["production_year"],
+                            document["price"],
+                            document["color"],
+                            document["size"]])
+
+        cosine = np.dot(current_product, product) / (norm(current_product) * norm(product)) * 100
+        if cosine > 70:
+            productsArray.append(document["name"])
+
+    return productsArray
     # END CODE HERE
 
 
