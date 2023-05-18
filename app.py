@@ -28,14 +28,55 @@ mongo.db.products.create_index([("name", TEXT)])
 @app.route("/search", methods=["GET"])
 def search():
     # BEGIN CODE HERE
-    return ""
+
+    name = request.args.get("name")
+    if not name:
+        return {"error": "Missing name parameter"}, 400
+    filtered_products = mongo.db.products.find({"name": {"$regex": fr"\b{name}\b", "$options": "i"}}).sort("price", -1)
+    # This implementation of fuzzy searching is doing implemented using regular expressions,
+    # We check for whole words matches
+
+    products = []
+    for product in filtered_products:
+        product["_id"] = str(product.pop("_id"))
+        products.append(product)
+
+    return products
     # END CODE HERE
 
 
 @app.route("/add-product", methods=["POST"])
 def add_product():
     # BEGIN CODE HERE
-    return ""
+
+    new_product: dict = request.json
+    # Check if JSON body is valid
+    keys = {'name', 'production_year', 'price', 'color', 'size'}
+    if not (set(new_product.keys()) == keys):
+        extra_fields = set(new_product.keys()) - keys
+        missing_fields = keys - set(new_product.keys())
+        error_message: str = "Error with JSON body:{0}{1}".format(
+            (f"has extra body parameters {extra_fields},   " if extra_fields else ""),
+            (f"has missing body parameters {missing_fields}" if missing_fields else ""))
+        return {'error': error_message}, 400
+
+    db_result = mongo.db.products.update_one({'name': new_product['name']},
+                                             {"$set": {
+                                                 'production_year': new_product['production_year'],
+                                                 'price': new_product['price'],
+                                                 'color': new_product['color'],
+                                                 'size': new_product['size']
+                                             }
+                                             }, upsert=True)
+    # upsert
+    # Creates a new document if no documents match the filter.
+    # Updates a single document that matches the filter.
+
+    if db_result.upserted_id is not None:
+        return "Inserted"
+    else:
+        return "Updated"
+
     # END CODE HERE
 
 
