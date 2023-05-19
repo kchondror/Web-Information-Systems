@@ -38,7 +38,7 @@ def search():
 
     products = []
     for product in filtered_products:
-        product["_id"] = str(product.pop("_id"))
+        product["id"] = str(product.pop("_id"))
         products.append(product)
 
     return products
