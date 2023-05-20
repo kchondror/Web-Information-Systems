@@ -16,6 +16,7 @@ driver.get("https://qa.auth.gr/el/x/studyguide/600000438/current")
 
 import numpy as np
 from numpy.linalg import norm
+
 # END CODE HERE
 
 app = Flask(__name__)
@@ -86,6 +87,16 @@ def content_based_filtering():
     productsArray = []
 
     current_product = request.json
+
+    keys = {'name', 'production_year', 'price', 'color', 'size'}
+    if not (set(current_product.keys()) == keys):
+        extra_fields = set(current_product.keys()) - keys
+        missing_fields = keys - set(current_product.keys())
+        error_message: str = "Error with JSON body:{0}{1}".format(
+            (f"has extra body parameters {extra_fields},   " if extra_fields else ""),
+            (f"has missing body parameters {missing_fields}" if missing_fields else ""))
+        return {'error': error_message}, 400
+
     current_product = np.array([current_product["production_year"],
                                 current_product["price"],
                                 current_product["color"],
@@ -97,7 +108,8 @@ def content_based_filtering():
                             document["price"],
                             document["color"],
                             document["size"]])
-
+        if None in current_product or None in product:
+            continue
         cosine = np.dot(current_product, product) / (norm(current_product) * norm(product)) * 100
         if cosine > 70:
             productsArray.append(document["name"])
