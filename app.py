@@ -31,10 +31,13 @@ def search():
     # BEGIN CODE HERE
 
     name = request.args.get("name")
-    if not name:
-        return {"error": "Missing name parameter"}, 400
-    filtered_products = mongo.db.products.find({"name": {"$regex": fr"\b{name}\b", "$options": "i"}}).sort("price", -1)
-    # This implementation of fuzzy searching is doing implemented using regular expressions,
+    if name != "":
+        filtered_products = mongo.db.products.find({"name": {"$regex": fr"\b{name}\b", "$options": "i"}}).sort("price",
+                                                                                                               -1)
+    else:
+        filtered_products = mongo.db.products.find().sort("price", -1)
+
+    # This implementation of fuzzy searching is done using regular expressions,
     # We check for whole words matches
 
     products = []
